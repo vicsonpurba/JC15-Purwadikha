@@ -1,0 +1,316 @@
+<script>
+    class Products {
+        constructor(_name, _price, _stock) {
+            this.name = _name;
+            this.price = _price;
+            this.stock = _stock;
+            this.qty = 0;
+            this.total = 0;
+        }
+    }
+
+    class Fastfood extends Products {
+        constructor(_name, _price, _stock, _expired){
+            super(_name, _price, _stock);
+            this.category = 1;// Ignore this. I dont use it
+            this.expired = _expired;
+        }
+    }
+
+    class Cloth extends Products {
+        constructor(_name, _price, _stock, _size){
+            super(_name, _price, _stock);
+            this.category = 2;// Ignore this. I dont use it
+            this.size = _size;
+        }
+    }
+
+    class Electronic extends Products {
+        constructor(_name, _price, _stock, _warranty){
+            super(_name, _price, _stock);
+            this.category = 3;// Ignore this. I dont use it
+            this.warranty = _warranty;
+        }
+    }
+
+    class Fruits extends Products {
+        constructor(_name, _price, _stock, _sugar){
+            super(_name, _price, _stock);
+            this.category = 4;// Ignore this. I dont use it
+            this.sugarLvl = _sugar;
+        }
+    }
+
+    
+    // Object from Constractor Products
+
+    var fast_food = new Fastfood("KFC", 50000, 100, "2020");
+    var cloth = new Cloth("Joger", 40000, 200, "L");
+    var electronic = new Electronic("Game Console", 1000000, 10, "Yes");
+    var fruits = new Fruits("Apel", 20000, 150, "High");
+
+    var kindOfProduct = [fast_food.name, cloth.name, electronic.name, fruits.name];
+    var productPrice = [fast_food.price, cloth.price, electronic.price, fruits.price];
+    var productStock = [fast_food.stock, cloth.stock, electronic.stock, fruits.stock];
+    var uniqueValueOfProductParam = ["Expired", "Size", "Warranty", "Level Gula"];
+    console.log(uniqueValueOfProductParam);
+    var uniqueValueOfProduct = [fast_food.expired, cloth.size, electronic.warranty, fruits.sugarLvl];
+    var totalProduct = [fast_food.total, cloth.total, electronic.total, fruits.total];
+    var qtyProduct = [fast_food.qty, cloth.qty, electronic.qty, fruits.qty];
+
+    // Function list below
+
+    function showList() {
+        var product_list = "Daftar Produk\n\n";
+        for(var i = 0; i < kindOfProduct.length; i++) {
+            product_list += (i + 1) + ". " + kindOfProduct[i] + " | Harga: Rp. " + productPrice[i] + " | Stock: " + productStock[i] + " buah | " + uniqueValueOfProductParam[i] + ": " + uniqueValueOfProduct[i] + "\n";
+        }
+        return product_list;
+    }
+
+    function buyProduct(){
+        
+        var chooseToBuy = parseInt(prompt("Pilih Produk yang ingin dibeli: \n\n" + showList() + "\n")) - 1; 
+        quantityBuyingProduct(chooseToBuy);
+        
+    }
+
+    function calculatingChoosenProduct() {
+        console.log(totalProduct);
+        console.log(qtyProduct);
+        var colon = " : ";
+        var currency = " x Rp. ";
+        var onlyCurrency = "Rp. ";
+        var equal = " = ";
+        var newLine = "\n";
+
+        // var totalPrice = 0;
+        // for(var i = 0; i < kindOfProduct.length; i++) {
+        //     totalPrice += totalProduct[i];
+        // }
+
+        var finalResult = ""
+        for(var i = 0; i < kindOfProduct.length; i++) {
+            if (qtyProduct[i] == 0) {
+
+            finalResult += ""; // Jika Quantity = 0, array akan jadi string kosong
+
+           } else if (qtyProduct[i] != 0) {
+
+            finalResult += kindOfProduct[i] + colon + qtyProduct[i] + currency + productPrice[i] + equal + onlyCurrency + totalProduct[i] + newLine;
+
+           }
+            
+           //  if (qtyProduct[i] == 0 || kindOfProduct[i] == 0 || productPrice[i] == 0 || totalProduct == 0) {
+           //      qtyProduct[i] = ""
+           //      kindOfProduct[i] = "";
+           //      productPrice[i] = "";
+           //      totalProduct[i] = "";
+           //      colon = "";
+           //      currency = "";
+           //      onlyCurrency = "";
+           //      equal = "";
+           //      newLine = "";   
+           //  }
+// 
+           //  finalResult += kindOfProduct[i] + colon + qtyProduct[i] + currency + productPrice[i] + equal + onlyCurrency + totalProduct[i] + newLine;
+            
+        }
+
+        var totalPrice = 0;
+        for(var i = 0; i < kindOfProduct.length; i++) {
+            totalPrice += totalProduct[i];
+        }
+
+        alert("Daftar Produk yang anda pesan: \n\n" + finalResult + "\n\n" + "Total: Rp. " + totalPrice );
+
+        var moneyCondition = false;
+
+        do {
+
+            var money = prompt('Masukkan jumlah uang (Rp.)')
+
+            if(money < totalPrice){
+                var needMoreMoney = totalPrice - money
+                alert('Uang yang Anda masukkan kurang Rp. ' + needMoreMoney)
+                moneyCondition = true
+
+            } else {
+                var savedMoney = money - totalPrice
+                alert(
+                    'Terimakasih. ' +
+                    'Uang kembali untuk Anda : Rp. ' + savedMoney
+                )
+                moneyCondition = false;
+            }
+
+        } while (moneyCondition);
+    }
+
+    // function calculatingChoosenProduct(_totalProduct, _kindOfProduct, _qtyProduct, _productPrice) {
+        // var choosenKindOfProduct = [];
+        // choosenKindOfProduct.push(_kindOfProduct);
+        // console.log(choosenKindOfProduct);
+        // var choosenTotalProduct = [];
+        // choosenTotalProduct.push(_totalProduct);
+        // console.log(choosenTotalProduct);
+        // var choosenQtyProduct = [];
+        // choosenQtyProduct.push(_qtyProduct);
+        // console.log(choosenQtyProduct)
+        // var choosenProductPrice = [];
+        // choosenProductPrice.push(_productPrice);
+        // console.log(choosenProductPrice);
+    // }
+
+    function quantityBuyingProduct(choose) {
+        var qtyCondition = false;
+        do{
+            var qty = parseInt(prompt("Masukkan Jumlah " + kindOfProduct[choose]));
+            qtyProduct[choose] = qty;
+            totalProduct[choose] = qtyProduct[choose] * productPrice[choose];
+            console.log(qtyProduct);
+            console.log(totalProduct);
+            console.log(totalProduct[choose]);
+            
+            if (qtyProduct[choose] > productStock[choose]){
+                alert("Batas maksimum Produk " + kindOfProduct[choose] + " : " + productStock[choose]);
+                qtyCondition = true;
+            } else {
+                qtyCondition = false;
+            }
+            
+        } while(qtyCondition);
+
+       var buyingAgain = confirm("Mau beli lagi produknya ?");
+
+            if (buyingAgain == true) {
+                // var choosenKindOfProduct = [];
+                // choosenKindOfProduct.push(kindOfProduct[choose]);
+                // console.log(choosenKindOfProduct);
+                // var choosenTotalProduct = [];
+                // choosenTotalProduct.push(totalProduct[choose]);
+                // console.log(choosenTotalProduct);
+                // var choosenQtyProduct = [];
+                // choosenQtyProduct.push(qtyProduct[choose]);
+                // console.log(choosenQtyProduct)
+                // var choosenProductPrice = [];
+                // choosenProductPrice.push(productPrice[choose]);
+                // console.log(choosenProductPrice);
+                buyProduct();
+            } else {
+                // calculatingChoosenProduct(totalProduct[choose], kindOfProduct[choose], qtyProduct[choose], productPrice[choose]);
+                calculatingChoosenProduct();
+            }
+
+    }
+
+    var backToMenu = false;
+
+    do {
+        var menu = parseInt(prompt(
+        'Apa yang ingin anda lakukan ?\n\n' +
+        '1. Tampilkan Produk\n' +
+        '2. Tambah Produk\n' +
+        '3. Hapus Produk\n' +
+        '4. Beli Produk\n' +
+        '5. Keluar\n\n'
+    ));
+
+    if (menu == 1){
+        alert(showList());
+
+    } else if (menu == 2) {
+
+        var categoryChoose = parseInt(prompt("Pilih kategori yang ingin ditambahkan: \n\n" + 
+        "1. Fast Food\n" +
+        "2. Pakaian\n" +
+        "3. Elektronik\n" +
+        "4. Buah\n\n" 
+        ));
+
+        if (categoryChoose == 1) {
+            var newProduct_fastFood = prompt("Masukkan nama Fastfood: ");
+            var newPrice_fastFood = prompt("Masukkan harganya: ");
+            var newStock_fastFood = prompt("Masukkan jumlah stocknya: ");
+            var newExpired = prompt("Masukkan tanggal kadarluarsanya: ");
+
+            kindOfProduct.push(newProduct_fastFood);
+            productPrice.push(newPrice_fastFood);
+            productStock.push(newStock_fastFood);
+            uniqueValueOfProductParam.push(uniqueValueOfProductParam[0]);
+            uniqueValueOfProduct.push(newExpired);
+
+            alert(showList());
+
+        } else if (categoryChoose == 2) {
+            var newProduct_cloth = prompt("Masukkan nama baju: ");
+            var newPrice_cloth = prompt("Masukkan harganya: ");
+            var newStock_cloth = prompt("Masukkan jumlah stocknya: ");
+            var newSize = prompt("Masukkan sizenya: ");
+
+            kindOfProduct.push(newProduct_cloth);
+            productPrice.push(newPrice_cloth);
+            productStock.push(newStock_cloth);
+            uniqueValueOfProductParam.push(uniqueValueOfProductParam[1]);
+            uniqueValueOfProduct.push(newSize);
+
+            alert(showList());
+
+        } else if (categoryChoose == 3){
+            var newProduct_electronic = prompt("Masukkan nama Elektronik: ");
+            var newPrice_electronic = prompt("Masukkan harganya: ");
+            var newStock_electronic = prompt("Masukkan jumlah stocknya: ");
+            var newWarranty = prompt('Apakah punya Warranty ? (Yes/No) : ');
+
+            kindOfProduct.push(newProduct_electronic);
+            productPrice.push(newPrice_electronic);
+            productStock.push(newStock_electronic);
+            uniqueValueOfProductParam.push(uniqueValueOfProductParam[2]);
+            uniqueValueOfProduct.push(newWarranty);
+
+            alert(showList());
+
+        } else if (categoryChoose == 4) {
+            var newProduct_fruits = prompt("Masukkan nama Buah: ");
+            var newPrice_fruits = prompt("Masukkan harganya: ");
+            var newStock_fruits = prompt("Masukkan jumlah stocknya: ");
+            var newGlucose = prompt('Masukkan Kadar gulanya (Tinggi/Menengah/Rendah): ')
+
+            kindOfProduct.push(newProduct_fruits);
+            productPrice.push(newPrice_fruits);
+            productStock.push(newStock_fruits);
+            uniqueValueOfProductParam.push(uniqueValueOfProductParam[3]);
+            uniqueValueOfProduct.push(newGlucose);
+
+            alert(showList());
+
+            console.log(kindOfProduct.length);
+        }
+
+    } else if (menu == 3) {
+
+        var deleteProduct = parseInt(prompt("Pilih daftar Product yang mau di hapus\n\n" + showList() + "\n")) - 1;
+        kindOfProduct.splice(deleteProduct, 1);
+        productPrice.splice(deleteProduct, 1);
+        productStock.splice(deleteProduct, 1);
+        uniqueValueOfProductParam.splice(deleteProduct, 1)
+        uniqueValueOfProduct.splice(deleteProduct, 1);
+
+        alert(showList());
+
+    } else if (menu == 4) {
+
+        buyProduct();
+
+    } else if (menu == 5) {
+        break;
+
+    } else if (menu >= 6) {
+        alert("Nomor yang anda masukkan tidak ada di list\n\n Proses ditutup");
+        break;
+
+    } backToMenu = confirm('Kembali ke menu awal ? Pilih "Ok"\n\n' + 'Pilih "Cancel" untuk mengakhiri proses ini');
+    } while(backToMenu)
+
+    
+</script>
